@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Saturday Studio</title>
+    <meta name="description" content="Handmade finds for you or your loved ones" />
+    <meta name="keywords" content="Handmade, Saturday Studio, DC Crew" />
+    <meta itemprop="image" content="https://miaoda-screenshot-img.s3cdn.medo.dev" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Saturday Studio" />
+    <meta property="og:description" content="Handmade finds for you or your loved ones" />
+    <meta property="og:image" content="https://miaoda-screenshot-img.s3cdn.medo.dev" />
+    <meta property="og:url" content="https://saturday-studio-dc-crew.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Saturday Studio" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Saturday Studio" />
+    <meta name="twitter:description" content="Handmade finds for you or your loved ones" />
+    <meta name="twitter:image" content="https://miaoda-screenshot-img.s3cdn.medo.dev" />
+    <meta name="twitter:url" content="https://saturday-studio-dc-crew.com" />
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- External Assets -->
+    <script type="module" crossorigin="" src="https://miaoda-op-sourcecode.s3.us-west-2.amazonaws.com"></script>
+    <link rel="stylesheet" crossorigin="" href="https://miaoda-op-sourcecode.s3.us-west-2.amazonaws.com" />
+    <link rel="stylesheet" id="fonts-code" href="https://miaoda-font.cdn.bcebos.com" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script id="md-click">
+      window.mdClick = (e) => {
+        const target = e.target.closest('[data-href]'); // Improved target detection
+        if (!target) return;
+
+        const { href, target: linkTarget } = target.dataset;
+        
+        // CHECKOUT LOGIC: This sends cart data to your Google Sheet via Google Form
+        if (href && (href.toLowerCase().includes('checkout') || href.toLowerCase().includes('order'))) {
+          e.preventDefault();
+          
+          // Grabs cart info from your site's storage (Defaults provided if empty)
+          const cartItems = localStorage.getItem('cart') || "Standard DC Crew Items"; 
+          const cartQty = localStorage.getItem('totalQty') || "1";
+
+          const baseUrl = "https://docs.google.com";
+          
+          // Your specific Entry IDs for Items (839337160) and Quantity (302078835)
+          const finalFormUrl = `${baseUrl}&entry.839337160=${encodeURIComponent(cartItems)}&entry.302078835=${cartQty}`;
+          
+          window.open(finalFormUrl, '_self');
+          return;
+        }
+
+        // Normal Navigation
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (linkTarget === '_blank' || href.startsWith('http')) {
+          window.open(href, linkTarget || '_self');
+        } else {
+          const finalHref = href.startsWith('/') ? href : '/' + href;
+          window.history.pushState({}, '', finalHref);
+          window.dispatchEvent(new Event('popstate'));
+        }
+      };
+      document.addEventListener('click', window.mdClick, true);
+    </script>
+
+    <script>
+      (function () {
+        const script = document.createElement('script');
+        script.src = 'https://miaoda-resource-static.s3cdn.medo.dev' + new Date().getTime();
+        script.async = true;
+        script.onload = function () {
+          window.miaoda.init({
+            appId: 'app-adetp9z5or29',
+            type: 'WEB',
+            share: {
+                title: "Saturday Studio",
+                desc: "Handmade finds for you or your loved ones",
+                image: "https://miaoda-screenshot-img.s3cdn.medo.dev"
+            }
+          });
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+  </body>
+</html>
